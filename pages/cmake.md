@@ -15,69 +15,95 @@ documentation.
 The basic structure of an ament package:
 
 ```cmake
-cmake_minimum_required(VERSION 3.5)
-project(my_package_name)
+cmake_minimum_required(VERSION 3.8)
+project(simple_cpp_python_publish_subscribe)
 
-# Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
 endif()
 
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
+# DEPENDENCIES
 
 # Find packages
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(std_msgs REQUIRED)
 
-# Include our own headers
-include_directories(include)
+find_package(ament_cmake_auto REQUIRED)
+ament_auto_find_build_dependencies()
 
-# Create a node
-add_executable(my_node src/my_node.cpp)
-ament_target_dependencies(my_node
-  rclcpp
-  # Other ament dependencies
-  # This sets up include and linker paths
+
+# CPP
+# Add the action client executable
+ament_auto_add_executable(publisher_cpp src/publisher.cpp)
+# Install the executable
+install(TARGETS publisher_cpp
+  DESTINATION lib/${PROJECT_NAME}
+)
+# Add the action client executable
+ament_auto_add_executable(subscriber_cpp src/subscriber.cpp)
+# Install the executable
+install(TARGETS subscriber_cpp
+  DESTINATION lib/${PROJECT_NAME}
 )
 
-add_library(my_library src/my_library.cpp)
-ament_target_dependencies(my_library
-  rclcpp
+
+# PYTHON
+# Install Python modules
+ament_python_install_package(${PROJECT_NAME})
+# Install Python executables
+install(PROGRAMS
+  scripts/publisher.py
+  scripts/subscriber.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
-# Install our headers
+
+# COPY A PARTICULAR FOLDER TO THE INSTALL DIRECTORY
+# Install config dependencies
 install(
-  DIRECTORY include/
-  DESTINATION include
-)
-
-# Install our node and library
-install(TARGETS my_node my_library
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION lib/${PACKAGE_NAME}
-)
-
-# Install some Python scripts
-install(
-  PROGRAMS
-    scripts/my_script.py
+  DIRECTORY
+    config
   DESTINATION
-    lib/${PROJECT_NAME}
+    share/${PROJECT_NAME}
 )
 
-# Tell downstream packages where to find our headers
-ament_export_include_directories(include)
-# Tell downstream packages our libraries to link against
-ament_export_libraries(my_library)
-# Help downstream packages to find transitive dependencies
-ament_export_dependencies(
-  rclcpp
-)
-ament_package()
+
+# LAUNCH
+# Install launchfile
+ament_auto_package(INSTALL_TO_SHARE launch)
 ```
+
+```xml
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>custom_msgs</name>
+  <version>0.0.0</version>
+  <description>TODO: Package description</description>
+  <maintainer email="rueda_999@hotmail.com">pep248</maintainer>
+  <license>TODO: License declaration</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
+
+  <depend>rosidl_default_generators</depend>
+
+  <exec_depend>rosidl_default_runtime</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
+```
+
 
 ## Linting Configuration
 
@@ -91,37 +117,63 @@ if(BUILD_TESTING)
 endif()
 ```
 
-## Installing Python Scripts
+## Package defining a custom message
 
-```cmake
-install(
-  PROGRAMS
-    scripts/script1.py
-    scripts/script2.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-```
-
-## Depending on Messages in Same Package
-
-It is generally best practice to put messages in separate packages, but sometimes,
-especially for drivers, you want the messages in the same package.
-
-The following example worked in earlier versions of ROS2 - but the syntax has changed
 See the [Implementing custom interfaces tutorial](https://docs.ros.org/en/rolling/Tutorials/Beginner-Client-Libraries/Single-Package-Define-And-Use-Interface.html#link-against-the-interface) for newer ROS2 distributions.
 
+:warning: Remeber that the name of the custom message has to start with Capital letter and CANNOT contain symbols.
+
 ```cmake
-# Note: this WILL NOT work in ROS2 Humble or later
+cmake_minimum_required(VERSION 3.8)
+project(custom_msgs)
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+# find dependencies
+find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
-# Generate some messages
+# custom message
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/MyMessage.msg"
-)
+  "msg/Custommessage.msg")
 
-# Add a node which uses the messages
-add_executable(my_node my_node.cpp)
-rosidl_target_interfaces(my_node ${PROJECT_NAME} "rosidl_typesupport_cpp")
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  set(ament_cmake_copyright_FOUND TRUE)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+ament_package()
+```
+
+```xml
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>custom_msgs</name>
+  <version>0.0.0</version>
+  <description>TODO: Package description</description>
+  <maintainer email="rueda_999@hotmail.com">pep248</maintainer>
+  <license>TODO: License declaration</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
+
+  <depend>rosidl_default_generators</depend>
+
+  <exec_depend>rosidl_default_runtime</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
 ```
 
 ## Removing Boost from Pluginlib
