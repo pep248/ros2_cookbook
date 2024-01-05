@@ -10,6 +10,7 @@
      * [TF2](rclcpp/tf2.md)
      * [Workarounds](rclcpp/workarounds.md)
    * rclpy [API](http://docs.ros2.org/latest/api/rclpy/)
+     * [Logging](rclpy/logging.md)
      * [Nodes](rclpy/nodes.md)
      * [Parameters](rclpy/parameters.md)
      * [Time](rclpy/time.md)

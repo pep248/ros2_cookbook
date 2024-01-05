@@ -2,6 +2,7 @@
 
 More info regarding the logging concepts can be found inside the [ROS 2 Humble Documentation: Logging](https://docs.ros.org/en/foxy/Tutorials/Demos/Logging-and-logger-configuration.html)
 
+
 ## C++
 
 ### Debug
@@ -40,27 +41,6 @@ RCLCPP_ERROR_THROTTLE(node->get_logger(), *node->get_clock(), 1000, "My log mess
 RCLCPP_ERROR_STREAM_THROTTLE(node->get_logger(), *node->get_lock(), 1000, "My log message " << 4);
 ```
 
-## Python
-
-### Debug
-```cpp
-node.get_logger().debug('My log message %d' % (4))
-```
-
-### Info
-```cpp
-node.get_logger().info('My log message %d' % (4))
-```
-
-### Warn
-```cpp
-node.get_logger().warning('My log message %d' % (4))
-```
-
-### Error
-```cpp
-node.get_logger().error('My log message %d' % (4))
-```
 
 
 ## Changing the logging level
