@@ -40,3 +40,13 @@ RCLCPP_ERROR_THROTTLE(node->get_logger(), *node->get_clock(), 1000, "My log mess
 // C++ stream style
 RCLCPP_ERROR_STREAM_THROTTLE(node->get_logger(), *node->get_lock(), 1000, "My log message " << 4);
 ```
+
+
+
+## Changing the logging level
+
+```cpp
+#include <rclcpp/logger.hpp>
+
+rclcpp::get_logger("nav2_costmap_2d").set_level(rclcpp::Logger::Level::Debug);
+```

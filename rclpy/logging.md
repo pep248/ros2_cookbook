@@ -24,12 +24,3 @@ node.get_logger().warning('My log message %d' % (4))
 ```py
 node.get_logger().error('My log message %d' % (4))
 ```
-
-
-## Changing the logging level
-
-```cpp
-#include <rclcpp/logger.hpp>
-
-rclcpp::get_logger("nav2_costmap_2d").set_level(rclcpp::Logger::Level::Debug);
-```
