@@ -28,6 +28,7 @@
    * [Converting Bags from ROS 1 to ROS 2](pages/bag.md#converting-bag-files-from-ros-1)
    * [Removing TF From a Bagfile](pages/bag.md#removing-tf-from-a-bagfile)
  * [Networking (DDS & CycloneDDS)](pages/pages/networking.md)
+
  * Command Line Tools
    * ```ros2 run <pkg> <node>```
    * ```ros2 node list```
@@ -36,6 +37,7 @@
    * ```ros2 param list```
    * [colcon](pages/colcon.md) is the build tool.
    * ```ros2 doctor --report``` gives tons of information.
+* [Package Creation](pages/package_creation.md)
 * [CMake](pages/cmake.md)
 * Packaging
    * [Setting bloom/git to always use ssh](https://answers.ros.org/question/234494/diagnosing-issues-with-bloom-github-two-factor-authentication/)
