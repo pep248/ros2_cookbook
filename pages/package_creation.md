@@ -1,4 +1,4 @@
-# Simple python publisher subscriber
+# Package Creation
 Example package with commands to create ros2 packages
 
 
