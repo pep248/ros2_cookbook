@@ -8,9 +8,10 @@ used packages.
 
  * [ROS 2 Overview](https://docs.ros.org/en/rolling/index.html)
  * [Ament CMake](https://docs.ros.org/en/rolling/How-To-Guides/Ament-CMake-Documentation.html)
- * [ROS2 Launch](https://github.com/ros2/launch/blob/master/launch/doc/source/architecture.rst)
+ * [ROS 2 Launch](https://github.com/ros2/launch/blob/master/launch/doc/source/architecture.rst)
 
 ## Higher Level Packages
 
  * [MoveIt2](https://moveit.ros.org/)
+   * If encountering errors about OpenGL Context when running setup assistant, restart the computer. This is usually caused by mismatched versions of NVIDIA drivers.
  * [Navigation2](https://navigation.ros.org/)

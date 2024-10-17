@@ -1,15 +1,15 @@
 # CMake
 
-While you don't need to know everything about CMake to use ROS2, knowing a bit
+While you don't need to know everything about CMake to use ROS 2, knowing a bit
 will really be helpful. You might be interested in the
 [CMake tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html)
 which explains the basics of CMake.
 
 ## Ament
 
-Ament is a set of CMake modules specifically designed for ROS2 with the intent
-of making CMake easier to use. See also the
-[Ament CMake](https://index.ros.org/doc/ros2/Tutorials/Ament-CMake-Documentation/)
+Ament is a set of CMake modules specifically designed for ROS 2 with the intent
+of making CMake easier to use. See the
+[Ament CMake](https://docs.ros.org/en/rolling/How-To-Guides/Ament-CMake-Documentation.html)
 documentation.
 
 The basic structure of an ament package:
@@ -19,7 +19,7 @@ cmake_minimum_required(VERSION 3.8)
 project(simple_cpp_python_publish_subscribe)
 
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 17)
 endif()
 
 # DEPENDENCIES
@@ -112,7 +112,7 @@ ament_auto_package(INSTALL_TO_SHARE launch)
 
 ## Linting Configuration
 
-I prefer a more ROS1-style code style. To allow braces to be on their
+I prefer a more ROS 1-style code style. To allow braces to be on their
 own lines:
 
 ```cmake
@@ -275,7 +275,7 @@ ament_package()
 ## Removing Boost from Pluginlib
 
 Pluginlib supports both boost::shared_ptrs and std::shared_ptrs by default,
-if you want to avoid depending on Boost in your shiny new ROS2 library, you
+if you want to avoid depending on Boost in your shiny new ROS 2 library, you
 need to specifically tell pluginlib not to include the Boost versions:
 
 ```cmake

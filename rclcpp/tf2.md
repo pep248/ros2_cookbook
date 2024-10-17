@@ -27,13 +27,10 @@ broadcaster->sendTransform(transform);
 ```cpp
 #include "tf2_ros/transform_listener.h"
 
-std::shared_ptr<tf2_ros::Buffer> tf_buffer;
-std::shared_ptr<tf2_ros::TransformListener> tf_listener;
-
 rclcpp::Node node("name_of_node");
 
-tf_buffer.reset(new tf2_ros::Buffer(node.get_clock()));
-tf_listener.reset(new tf2_ros::TransformListener(*tf_buffer_));
+auto tf_buffer = std::make_shared<tf2_ros::Buffer>(node.get_clock());
+auto tf_listener = std::make_shared<tf2_ros::TransformListener>(*tf_buffer);
 ```
 
 ## Applying Transforms
@@ -68,7 +65,7 @@ tf_buffer->transform(in, out, "target_frame", tf2::durationFromSec(1.0));
 
 ## Get Latest Transform
 
-A common work flow is to get the "latest" transform. In ROS2, this can be
+A common work flow is to get the "latest" transform. In ROS 2, this can be
 accomplished using _tf2::TimePointZero_, but requires using _lookupTransform_
 and then calling _doTransform_ (which is basically what _transform_ does
 internally):
@@ -83,6 +80,40 @@ geometry_msgs::msg::TransformStamped transform =
 
 tf2::doTransform(in, out, transform);
 ```
+
+## Constructing Transform from Euler Angles
+There are numerous ways to do this (using Eigen, KDL, etc) - but it is also possible with only tf2 APIs:
+
+```cpp
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
+
+tf2::Quaternion quat;
+// While the documentation for tf2 orders the names of these as yaw, pitch, roll,
+// it specifies that yaw = rotation about Y, which is not what most of us expect
+quat.setEuler(pitch, roll, yaw);
+
+geometry_msgs::msg::TransformStamped transform;
+transform.transform.rotation = tf2::toMsg(quat);
+// Probably also fill in transform.header and transform.transform.translation
+
+// Can now use the transform with tf2::doTransform()
+```
+
+## Getting Yaw Angle from Quaternion
+
+```cpp
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
+#include <tf2/utils.hpp>
+
+geometry_msgs::msg::Pose pose;
+double yaw = tf2::getYaw(pose.orientation);
+```
+
+> [!NOTE]
+> ```tf2::getYaw``` requires some pieces from ```tf2_geometery_msgs/tf2_geometry_msgs.hpp```
+> but cannot depend on them because it would create a circular dependency. This means you
+> absolutely need to include tf2_geometry_msgs BEFORE tf2/utils or you will get an
+> undefined reference to ```tf2::fromMsg```
 
 ## Transform from Eigen::Isometry3d
 

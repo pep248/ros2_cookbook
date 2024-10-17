@@ -25,7 +25,7 @@ class MyNode(Node):
         self.get_logger().info("Recieved: %s" % msg.data)
         self.publisher.publish(msg)
 
-if __name___ == "__main__":
+if __name__ == "__main__":
     rclpy.init()
     my_node = MyNode()
     rclpy.spin(my_node)
@@ -35,8 +35,8 @@ if __name___ == "__main__":
 
 ## Shutdown Hooks
 
-ROS1 had rospy.on_shutdown() - but there is
-[not an equivalent in ROS2](https://github.com/ros2/rclpy/issues/244). It really is not needed though, since we manually shut things down rather than
+ROS 1 had rospy.on_shutdown() - but there is
+[not an equivalent in ROS 2](https://github.com/ros2/rclpy/issues/244). It really is not needed though, since we manually shut things down rather than
 was the case in rospy which used many global variables:
 
 ```python
