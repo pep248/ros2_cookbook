@@ -15,6 +15,7 @@
      * [Parameters](rclpy/parameters.md)
      * [Time](rclpy/time.md)
      * [TF2](rclpy/tf2.md)
+ * [Complete Parameters](pages/parameters.md)    
  * [ros2launch](pages/launch.md)
    * [Python-Based Launch Files](pages/launch.md#python-based-launch-files)
    * [Making a Launch File Executable](main/pages/launch.md#making-a-launch-file-executable)
