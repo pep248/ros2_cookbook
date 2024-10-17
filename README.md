@@ -15,7 +15,10 @@
      * [Parameters](rclpy/parameters.md)
      * [Time](rclpy/time.md)
      * [TF2](rclpy/tf2.md)
- * [Complete Parameters](pages/parameters.md)    
+ * [Package Creation](pages/package_creation.md)
+ * [CMake](pages/cmake.md)
+ * [Complete Parameters](pages/parameters.md)  
+
  * [ros2launch](pages/launch.md)
    * [Python-Based Launch Files](pages/launch.md#python-based-launch-files)
    * [Making a Launch File Executable](pages/launch.md#making-a-launch-file-executable)
@@ -23,6 +26,7 @@
    * [Including Python Launch Files](pages/launch.md#including-python-launch-files)
    * [Loading a URDF](pages/launch.md#loading-a-urdf)
    * [Installing Launch Files](pages/launch.md#installing-launch-files)
+   
  * [rosbag2](pages/bag.md)
    * [Common CLI Commands](pages/bag.md#common-command-line)
    * [API Tutorials](pages/bag.md#api-tutorials)
@@ -39,8 +43,7 @@
    * ```ros2 param list```
    * [colcon](pages/colcon.md) is the build tool.
    * ```ros2 doctor --report``` gives tons of information.
-* [Package Creation](pages/package_creation.md)
-* [CMake](pages/cmake.md)
+
 * Packaging
  * Packaging
    * [Setting bloom/git to always use ssh](https://answers.ros.org/question/234494/diagnosing-issues-with-bloom-github-two-factor-authentication/)
